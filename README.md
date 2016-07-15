@@ -28,6 +28,8 @@ add "exclude.modifier": "" for modifiers eg. i for case sensitive
 
 after you change config in brackets.json the file tree will be automatic refresh.
 
+
+
 ***This extension extended from 'https://github.com/gruehle/exclude-folders'
 
 ***credit:: https://github.com/gruehle/exclude-folders
