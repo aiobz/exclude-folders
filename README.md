@@ -6,29 +6,27 @@ Brackets extension for excluding folders from the file tree, find in files, and 
 To install:
 
 1. Launch Brackets
-2. Select _File > Extension Manager..._ or click the Lego icon in the toolbar
+2. Open Extension Manager by click on the Lego icon in the right toolbar
 3. Click the "Install from URL..." button
-4. Paste (or enter) `https://github.com/gruehle/exclude-folders` and click "Install"
+4. Paste (or enter) `https://github.com/aiobz/exclude-folders` and click "Install"
 
-By default, this extension excludes all `node_modules` folders. If you want to exclude additional folders, edit the regular expression on line 41 of `main.js`. For example, if you want to exclude all items that contain the words `node_modules`, `bin`, and `componenets`, use:
+To config:
 
-```js
-    return !name.match(/node_modules|bin|components/);
+```
+open brackets preferences `command + ,` and then
 ```
 
-Note that this will match these words *anywhere* in the folder *or* file name. For example, if you have a folder named "my-components", it will also be excluded. You can use the `^` and `$` anchors to ensure that the name must be a complete match:
-
-
-```js
-    return !name.match(/^(node_modules|bin|components)$/);
+This exclude node_modules and bower_components by default.
+```
+add "exclude.regex": "^(node_modules|bower_components)$" for exclude the folder or file.
 ```
 
-Matching is case sensitive by default. Add `i` to the end to make it case-insensitive:
-
-
-```js
-    return !name.match(/^(node_modules|bin|components)$/i);
+Default is "".
+```
+add "exclude.modifier": "" for modifiers eg. i for case sensitive
 ```
 
+after you change config in brackets.json the file tree will be automatic refresh.
 
-
+***This extension extended from 'https://github.com/gruehle/exclude-folders'
+credit:: https://github.com/gruehle/exclude-folders

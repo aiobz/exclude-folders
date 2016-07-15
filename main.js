@@ -27,8 +27,26 @@ define(function (require, exports, module) {
     "use strict";
     
     var FileSystem  = brackets.getModule("filesystem/FileSystem");
-    
     var _oldFilter = FileSystem._FileSystem.prototype._indexFilter;
+    var ProjectManager = brackets.getModule("project/ProjectManager");
+    var PreferencesManager = brackets.getModule("preferences/PreferencesManager");
+    var prefs = PreferencesManager.getExtensionPrefs("exclude");
+
+    // refresh file tree.
+    function refreshFileTree() {
+        setTimeout(function () {
+            ProjectManager.refreshFileTree();
+        });
+    }
+
+    // listen event on regex change.
+    prefs.definePreference("regex", "string", "").on("change", function () {
+        refreshFileTree();
+    });
+    // listen event on modifier change.
+    prefs.definePreference("modifier", "string", "").on("change", function () {
+        refreshFileTree();
+    });
     
     FileSystem._FileSystem.prototype._indexFilter = function (path, name) {
         // Call old filter
@@ -37,7 +55,13 @@ define(function (require, exports, module) {
         if (!result) {
             return false;
         }
+        // Exclude folder default is node_module|bower_components.
+        var pattern = (prefs.get("regex") && prefs.get("regex").replace(/\"/g, '')) || "^(node_modules|bower_components)$";
+        // Modifier
+        var modifier = prefs.get("modifier") || '';
+        // Initial new regular expression.
+        var regex = new RegExp(pattern, modifier);
         
-        return !name.match(/node_modules/);
+        return !name.match(regex);
     };
 });
